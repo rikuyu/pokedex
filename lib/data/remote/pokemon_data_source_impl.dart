@@ -1,30 +1,29 @@
-import 'dart:ffi';
 
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedex/data/remote/DioClient.dart';
-import 'package:pokedex/data/remote/remote_data_source.dart';
 import 'package:pokedex/shared/constraints.dart';
 
+import '../../domain/data_source/pokemon_data_source.dart';
 import '../../model/pokemon.dart';
 
-final remoteDataSource =
-    Provider((ref) => RemoteDataSourceImpl(dio: ref.read(dioProvider)));
+final pokemonDataSource =
+    Provider<PokemonDataSource>((ref) => PokemonDataSourceImpl(dio: ref.read(dioProvider)));
 
-class RemoteDataSourceImpl implements RemoteDataSource {
-  RemoteDataSourceImpl({required this.dio});
+class PokemonDataSourceImpl implements PokemonDataSource {
+  PokemonDataSourceImpl({required this.dio});
 
   final Dio dio;
-  final int limit = 10;
-  int index = 1;
+  final int _limit = 10;
+  int _index = 1;
 
   @override
   Future<List<Pokemon>> fetchPokemonList() async {
     List<Future<Pokemon>> pokemonList = [];
-    for (int i = index; i < (index + limit); i++) {
+    for (int i = _index; i < (_index + _limit); i++) {
       pokemonList.add(fetchPokemon(i));
     }
-    index += limit;
+    _index += _limit;
     return Future.wait(pokemonList);
   }
 
