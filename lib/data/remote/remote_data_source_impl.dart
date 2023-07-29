@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedex/data/remote/DioClient.dart';
 import 'package:pokedex/data/remote/remote_data_source.dart';
+import 'package:pokedex/shared/constraints.dart';
 
 import '../../model/pokemon.dart';
 
@@ -20,8 +21,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<Pokemon> fetchPokemon() {
-    // TODO: implement fetchPokemon
-    throw UnimplementedError();
+  Future<Pokemon> fetchPokemon() async {
+    final response = await dio.get("${Constraints.pokeApi}/ditto");
+    return Pokemon.fromJson(response.data);
   }
 }
