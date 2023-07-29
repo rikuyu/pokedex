@@ -5,10 +5,10 @@ import '../../model/pokemon.dart';
 import '../data_source/pokemon_data_source.dart';
 
 final getPokemonDetailUseCaseProvider = Provider<GetPokemonDetailUseCase>((ref) =>
-    GetPokemonDetailUseCase(pokemonDataSource: ref.watch(pokemonDataSource)));
+    GetPokemonDetailUseCase(ref.watch(pokemonDataSource)));
 
 class GetPokemonDetailUseCase {
-  GetPokemonDetailUseCase({required this.pokemonDataSource});
+  GetPokemonDetailUseCase(this.pokemonDataSource);
 
   final PokemonDataSource pokemonDataSource;
 

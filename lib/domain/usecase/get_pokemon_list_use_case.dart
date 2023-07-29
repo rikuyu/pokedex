@@ -5,10 +5,10 @@ import 'package:pokedex/model/pokemon.dart';
 import '../data_source/pokemon_data_source.dart';
 
 final getPokemonListUseCaseProvider = Provider<GetPokemonListUseCase>((ref) =>
-    GetPokemonListUseCase(pokemonDataSource: ref.watch(pokemonDataSource)));
+    GetPokemonListUseCase(ref.watch(pokemonDataSource)));
 
 class GetPokemonListUseCase {
-  GetPokemonListUseCase({required this.pokemonDataSource});
+  GetPokemonListUseCase(this.pokemonDataSource);
 
   final PokemonDataSource pokemonDataSource;
 
