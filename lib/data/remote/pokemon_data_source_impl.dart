@@ -1,15 +1,15 @@
-
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedex/data/remote/DioClient.dart';
 import 'package:pokedex/shared/constraints.dart';
-import 'package:pokedex/shared/extension.dart';
+import 'package:pokedex/shared/converter.dart';
 
 import '../../domain/data_source/pokemon_data_source.dart';
 import '../../model/pokemon.dart';
+import '../../model/pokemon_response.dart';
 
-final pokemonDataSource =
-    Provider<PokemonDataSource>((ref) => PokemonDataSourceImpl(dio: ref.read(dioProvider)));
+final pokemonDataSource = Provider<PokemonDataSource>(
+    (ref) => PokemonDataSourceImpl(dio: ref.read(dioProvider)));
 
 class PokemonDataSourceImpl implements PokemonDataSource {
   PokemonDataSourceImpl({required this.dio});
@@ -31,9 +31,8 @@ class PokemonDataSourceImpl implements PokemonDataSource {
   @override
   Future<Pokemon> fetchPokemon(int id) async {
     final response = await dio.get("${Constraints.pokeApi}/$id");
-    final enPokemon = Pokemon.fromJson(response.data);
-    final String jaPokemonName = await enPokemon.convertJaPokemonName();
-    final jaPokemon = enPokemon.copyWith(name: jaPokemonName);
+    final enPokemon = PokemonResponse.fromJson(response.data);
+    final jaPokemon = enPokemon.convertPokemonFromResponse();
     return jaPokemon;
   }
 }

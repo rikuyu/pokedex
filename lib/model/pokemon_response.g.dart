@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pokemon.dart';
+part of 'pokemon_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Pokemon _$$_PokemonFromJson(Map<String, dynamic> json) => _$_Pokemon(
+_$_PokemonResponse _$$_PokemonResponseFromJson(Map<String, dynamic> json) =>
+    _$_PokemonResponse(
       name: json['name'] as String,
       order: json['order'] as int,
       types: (json['types'] as List<dynamic>)
@@ -15,7 +16,7 @@ _$_Pokemon _$$_PokemonFromJson(Map<String, dynamic> json) => _$_Pokemon(
       sprites: Sprites.fromJson(json['sprites'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_PokemonToJson(_$_Pokemon instance) =>
+Map<String, dynamic> _$$_PokemonResponseToJson(_$_PokemonResponse instance) =>
     <String, dynamic>{
       'name': instance.name,
       'order': instance.order,

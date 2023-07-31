@@ -33,5 +33,5 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/json/pokemon.json
+    - assets/json/pokemon_name.json
   uses-material-design: true

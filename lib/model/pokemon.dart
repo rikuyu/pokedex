@@ -1,21 +1,15 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pokedex/model/sprites.dart';
-import 'package:pokedex/model/types.dart';
+class Pokemon {
+  Pokemon({
+    required this.index,
+    required this.name,
+    required this.types,
+    required this.imageUrl,
+    required this.shinyImageUrl,
+  });
 
-part 'pokemon.freezed.dart';
-
-part 'pokemon.g.dart';
-
-@freezed
-class Pokemon with _$Pokemon {
-
-  const factory Pokemon({
-    required String name,
-    required int order,
-    required List<Types> types,
-    required Sprites sprites,
-  }) = _Pokemon;
-
-  factory Pokemon.fromJson(Map<String, dynamic> json) =>
-      _$PokemonFromJson(json);
+  final String name;
+  final int index;
+  final List<String> types;
+  final String imageUrl;
+  final String shinyImageUrl;
 }

@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pokedex/model/pokemon.dart';
+import 'package:pokedex/model/pokemon_response.dart';
 import 'package:pokedex/state/pokemon_list_state.dart';
+
+import '../../model/pokemon.dart';
 
 @RoutePage()
 class AllPokemonListScreen extends HookConsumerWidget {

@@ -1,5 +1,5 @@
 
-import 'package:pokedex/model/pokemon.dart';
+import '../../model/pokemon.dart';
 
 abstract interface class PokemonDataSource {
   Future<List<Pokemon>> fetchPokemonList();
