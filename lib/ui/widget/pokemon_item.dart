@@ -13,13 +13,15 @@ class PokemonItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double itemSize = (screenWidth - 10.0 * 3.0) / 2;
-    final Color color = Color(pokemon.types.first.getTypeColor());
+    final Color color =
+        typeColor[pokemon.types.first] ?? const Color(0xFFE1EDFC);
+    final Color fontColor = color.getThemeColor();
 
     return Container(
       width: itemSize,
       height: itemSize,
       decoration: BoxDecoration(
-          color: color, borderRadius: BorderRadius.circular(16.0)),
+          color: color, borderRadius: BorderRadius.circular(20.0)),
       child: Stack(
         children: [
           Align(
@@ -53,8 +55,8 @@ class PokemonItem extends HookConsumerWidget {
               padding: const EdgeInsets.only(bottom: 12.0),
               child: Text(
                 "No.${pokemon.index} ${pokemon.name}",
-                style: const TextStyle(
-                    color: Colors.white,
+                style: TextStyle(
+                    color: fontColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 16),
               ),
