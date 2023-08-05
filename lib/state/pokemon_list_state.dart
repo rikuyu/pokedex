@@ -8,7 +8,9 @@ final pokemonListStateNotifierProvider =
         PokemonListStateNotifier(ref.watch(getPokemonListUseCaseProvider)));
 
 class PokemonListStateNotifier extends StateNotifier<List<Pokemon>> {
-  PokemonListStateNotifier(this.useCase) : super([]);
+  PokemonListStateNotifier(this.useCase) : super([]) {
+    getPokemonList();
+  }
 
   final GetPokemonListUseCase useCase;
 

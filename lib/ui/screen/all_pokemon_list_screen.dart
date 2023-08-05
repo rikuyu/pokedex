@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedex/model/pokemon_response.dart';
 import 'package:pokedex/state/pokemon_list_state.dart';
+import 'package:pokedex/ui/widget/pokemon_item.dart';
 
 import '../../model/pokemon.dart';
 
@@ -12,24 +13,22 @@ class AllPokemonListScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fetch = ref.watch(pokemonListStateNotifierProvider.notifier);
     List<Pokemon> pokemonList = ref.watch(pokemonListStateNotifierProvider);
-    List<Widget> items = pokemonList
-        .map((e) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-              child: Text(e.name),
-            ))
-        .toList();
+    List<Widget> items =
+        pokemonList.map((pokemon) => PokemonItem(pokemon)).toList();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("AllPokemonListScreen"),
       ),
-      body: ListView(children: items),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          fetch.getPokemonList();
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          children: items,
+        ),
       ),
     );
   }

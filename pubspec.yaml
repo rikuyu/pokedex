@@ -33,5 +33,7 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/json/pokemon_name.json
+    - json/pokemon_name.json
+    - json/pokemon_type.json
+    - images/pokemon_ball.png
   uses-material-design: true
