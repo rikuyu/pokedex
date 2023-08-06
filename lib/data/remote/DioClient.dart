@@ -7,7 +7,7 @@ class DioClient {
   final Dio _dio = Dio();
 
   DioClient() {
-    _dio.interceptors.add(LogInterceptor(responseBody: true));
+    //_dio.interceptors.add(LogInterceptor(responseBody: true));
   }
 
   Dio get dio => _dio;

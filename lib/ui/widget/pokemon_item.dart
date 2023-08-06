@@ -29,13 +29,10 @@ class PokemonItem extends HookConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.only(
                   top: 24, bottom: 40, left: 24, right: 24),
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                      color.withOpacity(0.90), BlendMode.srcATop),
-                  child: Image.asset(Constraints.itemBackground),
-                ),
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                    color.withOpacity(0.90), BlendMode.srcATop),
+                child: Image.asset(Constraints.itemBackground),
               ),
             ),
           ),
@@ -43,10 +40,7 @@ class PokemonItem extends HookConsumerWidget {
             alignment: Alignment.center,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Image.network(pokemon.imageUrl),
-              ),
+              child: Image.network(pokemon.imageUrl),
             ),
           ),
           Align(

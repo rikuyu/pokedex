@@ -13,23 +13,47 @@ class AllPokemonListScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Pokemon> pokemonList = ref.watch(pokemonListStateNotifierProvider);
-    List<Widget> items =
-        pokemonList.map((pokemon) => PokemonItem(pokemon)).toList();
+    final notifier = ref.watch(pokemonListStateNotifierProvider.notifier);
+    AsyncValue<List<Pokemon>> asyncStatus =
+        ref.watch(pokemonListStateNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("AllPokemonListScreen"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-          children: items,
+        appBar: AppBar(
+          title: const Text("AllPokemonListScreen"),
         ),
-      ),
-    );
+        body: asyncStatus.when(
+          data: (pokemon) =>
+              _pokemonList(asyncStatus.value ?? [], notifier.getPokemonList),
+          error: (error, _) => Text('error:${error.toString()}'),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        ));
+  }
+
+  Widget _pokemonList(
+    List<Pokemon> pokemonList,
+    void Function() fetch,
+  ) {
+    List<Widget> items =
+        pokemonList.map((pokemon) => PokemonItem(pokemon)).toList();
+    return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollNotification) {
+            final currentPosition = scrollNotification.metrics.pixels;
+            final maxPosition = scrollNotification.metrics.maxScrollExtent;
+            if (currentPosition == maxPosition) {
+              fetch();
+              return true;
+            }
+            return false;
+          },
+          child: GridView.builder(
+              itemCount: items.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0),
+              itemBuilder: (_, index) => items[index]),
+        ));
   }
 }
