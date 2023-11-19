@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedex/model/pokemon_response.dart';
+import 'package:pokedex/shared/paging_item.dart';
 import 'package:pokedex/state/pokemon_list_state.dart';
 import 'package:pokedex/ui/widget/pokemon_item.dart';
 
@@ -14,19 +15,14 @@ class AllPokemonListScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.watch(pokemonListStateNotifierProvider.notifier);
-    AsyncValue<List<Pokemon>> asyncStatus =
-        ref.watch(pokemonListStateNotifierProvider);
+    final res = ref.watch(pokemonListStateNotifierProvider);
 
     return Scaffold(
         appBar: AppBar(
           title: const Text("AllPokemonListScreen"),
         ),
-        body: asyncStatus.when(
-          data: (pokemon) =>
-              _pokemonList(asyncStatus.value ?? [], notifier.getPokemonList),
-          error: (error, _) => Text('error:${error.toString()}'),
-          loading: () => const Center(child: CircularProgressIndicator()),
-        ));
+        body: handleResponse(
+            res, _pokemonList(res.pokemonList, notifier.getPokemonList)));
   }
 
   Widget _pokemonList(

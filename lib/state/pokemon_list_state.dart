@@ -1,32 +1,32 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pokedex/domain/usecase/get_pokemon_list_use_case.dart';
 
-import '../model/pokemon.dart';
+import '../model/pokemon_paging_item.dart';
+import '../shared/constraints.dart';
 
 final pokemonListStateNotifierProvider =
-    StateNotifierProvider<PokemonListStateNotifier, AsyncValue<List<Pokemon>>>(
-        (ref) =>
-            PokemonListStateNotifier(ref.watch(getPokemonListUseCaseProvider)));
+    StateNotifierProvider<PokemonListStateNotifier, PokemonPagingItem>((ref) =>
+        PokemonListStateNotifier(ref.watch(getPokemonListUseCaseProvider)));
 
-class PokemonListStateNotifier
-    extends StateNotifier<AsyncValue<List<Pokemon>>> {
-  PokemonListStateNotifier(this.useCase) : super(const AsyncValue.data([])) {
+class PokemonListStateNotifier extends StateNotifier<PokemonPagingItem> {
+  PokemonListStateNotifier(this.useCase) : super(const PokemonPagingItem()) {
     getPokemonList();
   }
 
   final GetPokemonListUseCase useCase;
 
-  // TODO(rikuyu) guard
   void getPokemonList() async {
-    if (state is AsyncLoading) return;
-    state = const AsyncValue.loading();
+    if (state.isLoading) return;
+    state = state.copyWith(isError: false, isLoading: true);
     try {
-      final pokemonList = state.value ?? [];
+      final pokemonList = state.pokemonList;
       final response = await useCase.call();
+      final hasMore = response.length == Constraints.maxFetchSize;
       final newState = [...pokemonList, ...response];
-      state = AsyncValue.data(newState);
-    } catch (error, stack) {
-      state = AsyncValue.error(error, stack);
+      state = state.copyWith(
+          pokemonList: newState, hasMore: hasMore, isLoading: false);
+    } catch (error) {
+      state = state.copyWith(isError: true, isLoading: false);
     }
   }
 }

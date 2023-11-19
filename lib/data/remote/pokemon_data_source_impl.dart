@@ -15,7 +15,7 @@ class PokemonDataSourceImpl implements PokemonDataSource {
   PokemonDataSourceImpl({required this.dio});
 
   final Dio dio;
-  final int _limit = 10;
+  final int _limit = Constraints.maxFetchSize;
   int _index = 1;
 
   @override
